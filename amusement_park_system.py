@@ -484,29 +484,28 @@ class AmusementParkSystem:
                     # 예상 탑승 시간에서 현재 시간을 빼서 남은 시간을 구한다.
                     remain_time = waiting_info.expected_time - self.current_time
 
-                    # 남은 시간이 15초 이하이고 아직 15초 전 알림을 하지 않았다면 알림을 출력한다.
+                    # 남은 시간이 15초 이하이고 아직 15초 전 알림을 하지 않았다면 이동 안내를 출력한다.
                     if remain_time <= 15 and remain_time > 5 and waiting_info.alert_15 == False:
                         print()
-                        print("🔔 입장 알림")
+                        print("🔔 이동 안내")
                         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-                        print("🎠", waiting_info.ride_name)
-                        print("⏰ 입장 15초 전입니다.")
+                        print("🚶 이제", waiting_info.ride_name, "(으)로 이동해주세요 (탑승까지", remain_time, "초)")
                         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                         waiting_info.alert_15 = True
 
-                    # 남은 시간이 5초 이하이고 아직 5초 전 알림을 하지 않았다면 탑승 여부를 입력받는다.
+                    # 남은 시간이 5초 이하이고 아직 5초 전 알림을 하지 않았다면 도착 여부를 입력받는다.
                     if remain_time <= 5 and remain_time >= 0 and waiting_info.alert_5 == False:
                         print()
-                        print("🚨 탑승 확인")
+                        print("🚪 도착 확인")
                         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                         print("🎠", waiting_info.ride_name)
                         print("⏰ 입장 5초 전입니다.")
                         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
                         waiting_info.alert_5 = True
 
-                        # 사용자에게 탑승 여부를 입력받는다.
+                        # 사용자에게 도착 여부를 입력받는다.
                         while True:
-                            answer = input("👉 " + waiting_info.ride_name + "을(를) 탑승하시겠습니까? (Y/N): ")
+                            answer = input("👉 " + waiting_info.ride_name + "에 도착하셨나요? (Y/N): ")
 
                             # Y를 입력하면 탑승 확인 상태로 변경한다.
                             if answer == "Y" or answer == "y":
