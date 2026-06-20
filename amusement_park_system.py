@@ -337,9 +337,19 @@ class AmusementParkSystem:
         # 현재 사용자가 이 놀이기구에 대기 중인지 확인한다.
         my_waiting = ride.get_my_waiting_order(self.current_visitor)
 
-        # 현재 사용자가 대기 중이라면 몇 번째 대기인지 출력한다.
+        # 현재 사용자가 대기 중이라면 몇 번째 대기인지와 탑승까지 남은 시간을 출력한다.
         if my_waiting[1] != 0:
-            print("✅ 나의 대기:", my_waiting[0], "대기열", my_waiting[1], "번째")
+            # 현재 사용자의 대기 정보를 가져온다.
+            my_info = ride.get_my_waiting_info(self.current_visitor)
+
+            # 예상 탑승 시간에서 현재 시간을 빼서 남은 시간을 구한다.
+            remain_time = my_info.expected_time - self.current_time
+
+            # 음수가 나오지 않도록 0 미만이면 0으로 맞춘다.
+            if remain_time < 0:
+                remain_time = 0
+
+            print("✅ 나의 대기:", my_waiting[0], "대기열", my_waiting[1], "번째 / 탑승까지", remain_time, "초 남음")
 
         print("──────────────────────────────")
 

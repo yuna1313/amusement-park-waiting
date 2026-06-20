@@ -210,6 +210,21 @@ class Ride:
         # 대기 중이 아니라면 빈 값을 반환한다.
         return ["", 0]
 
+    # 현재 사용자의 대기 정보 객체를 반환하는 메소드를 선언한다.
+    def get_my_waiting_info(self, visitor):
+        # FastPass 대기열에서 현재 사용자를 찾는다.
+        for i in range(len(self.fastpass_queue)):
+            if self.fastpass_queue[i].visitor == visitor:
+                return self.fastpass_queue[i]
+
+        # 일반 대기열에서 현재 사용자를 찾는다.
+        for i in range(len(self.normal_queue)):
+            if self.normal_queue[i].visitor == visitor:
+                return self.normal_queue[i]
+
+        # 대기 중이 아니라면 None을 반환한다.
+        return None
+
     # 특정 대기 정보를 대기열에서 제거하는 메소드를 선언한다.
     def remove_waiting_info(self, waiting_info):
         # 일반 대기열에서 해당 대기 정보를 찾는다.
