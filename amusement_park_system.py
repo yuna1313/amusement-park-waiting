@@ -85,14 +85,14 @@ class AmusementParkSystem:
                 self.show_popular_rides()
             elif menu == "5":
                 self.show_my_info()
-            elif menu == "6":
+            elif menu == "0":
                 print("프로그램을 종료합니다.")
                 break
             else:
                 print("잘못된 메뉴입니다.")
 
             # 종료가 아니라면 메뉴 실행 후 1초가 지난 것으로 처리한다.
-            if menu != "6":
+            if menu != "0":
                 self.time_pass()
 
     # 사용자 등록 메소드를 선언한다.
@@ -167,7 +167,7 @@ class AmusementParkSystem:
         print("3️⃣  나의 탑승 내역 조회")
         print("4️⃣  인기 놀이기구 조회")
         print("5️⃣  나의 정보 조회")
-        print("6️⃣  종료")
+        print("0️⃣  종료")
         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
     # 놀이기구 목록을 출력하는 메소드를 선언한다.
@@ -184,7 +184,7 @@ class AmusementParkSystem:
             # 놀이기구 정보를 출력한다.
             print(str(i + 1) + ".", ride.ride_name)
 
-        # 뒤로 가기(메인 메뉴 복귀) 항목을 출력한다.
+        # 뒤로 가기(메인 메뉴 복귀) 항목을 맨 아래에 출력한다.
         print("0. 뒤로 가기")
         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
