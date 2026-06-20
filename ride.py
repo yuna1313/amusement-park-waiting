@@ -16,7 +16,7 @@ class Ride:
         self.ride_time = ride_time
 
         # 한 번에 탑승 가능한 인원을 저장한다.
-        # 예: 스톤 익스프레스는 2명, 에오스 타워는 6명
+        # 예: 스톤 익스프레스는 4명, 에오스 타워는 6명
         self.capacity = capacity
 
         # 일반 대기열을 저장할 리스트를 선언한다.

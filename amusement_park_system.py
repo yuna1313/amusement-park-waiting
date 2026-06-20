@@ -28,10 +28,10 @@ class AmusementParkSystem:
         self.max_fastpass_queue = 10
 
         # 놀이기구 객체를 생성하여 리스트에 추가한다.
-        self.ride_list.append(Ride("스톤 익스프레스", 5, 2))
-        self.ride_list.append(Ride("아르카나 라이드", 7, 2))
+        self.ride_list.append(Ride("스톤 익스프레스", 5, 4))
+        self.ride_list.append(Ride("아르카나 라이드", 7, 4))
         self.ride_list.append(Ride("에오스 타워", 7, 6))
-        self.ride_list.append(Ride("자이로 스핀 메이플 리뉴얼 버전", 7, 6))
+        self.ride_list.append(Ride("자이로 스핀 메이플 리뉴얼 버전", 7, 8))
 
         # 프로그램 시작 전에 각 놀이기구마다 기존 대기자 5명을 추가한다.
         self.add_sample_waiting_people()
