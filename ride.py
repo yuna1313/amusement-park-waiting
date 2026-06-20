@@ -53,21 +53,6 @@ class Ride:
     def get_fastpass_count(self):
         return len(self.fastpass_queue)
 
-    # 같은 사용자가 이미 해당 놀이기구에 대기 중인지 확인하는 메소드를 선언한다.
-    def has_same_visitor(self, visitor):
-        # 일반 대기열에서 같은 사용자 객체가 있는지 확인한다.
-        for i in range(len(self.normal_queue)):
-            if self.normal_queue[i].visitor == visitor:
-                return True
-
-        # FastPass 대기열에서 같은 사용자 객체가 있는지 확인한다.
-        for i in range(len(self.fastpass_queue)):
-            if self.fastpass_queue[i].visitor == visitor:
-                return True
-
-        # 같은 사용자가 없으면 False를 반환한다.
-        return False
-
     # 한 번 운행할 때 탑승할 대기자를 선택하는 메소드를 선언한다.
     def make_boarding_group(self, fastpass_queue, normal_queue):
         # 이번 운행에서 탑승할 대기 정보를 저장할 리스트를 선언한다.
