@@ -20,6 +20,13 @@ class AmusementParkSystem:
         # 자동으로 추가되는 대기자 번호를 저장한다.
         self.auto_visitor_number = 1
 
+        # 자동 대기자 추가 시 일반 대기열의 최대 인원을 정한다.
+        # 이 인원 이상이면 해당 놀이기구에는 자동 대기자를 더 추가하지 않아 무한 증가를 막는다.
+        self.max_normal_queue = 20
+
+        # 자동 대기자 추가 시 FastPass 대기열의 최대 인원을 정한다.
+        self.max_fastpass_queue = 10
+
         # 놀이기구 객체를 생성하여 리스트에 추가한다.
         self.ride_list.append(Ride("스톤 익스프레스", 5, 2))
         self.ride_list.append(Ride("아르카나 라이드", 7, 2))
@@ -431,13 +438,17 @@ class AmusementParkSystem:
 
     # 5초마다 대기열에 자동 대기자를 추가하는 메소드를 선언한다.
     def add_auto_waiting_people(self):
-        # 한 놀이기구마다 추가할 자동 대기자 수를 저장한다.
-        add_count = 3
+        # 한 놀이기구마다 일반 대기열에 추가할 자동 대기자 수를 저장한다.
+        normal_add_count = 3
+
+        # 한 놀이기구마다 FastPass 대기열에 추가할 자동 대기자 수를 저장한다.
+        fastpass_add_count = 1
 
         print()
         print("👥 자동 대기자 추가")
         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-        print("⏰", self.current_time, "초가 되어 모든 놀이기구에 대기자", add_count, "명씩 추가됩니다. (5초마다 모든 놀이기구 대기자 3명씩 추가)")
+        print("⏰", self.current_time, "초가 되어 모든 놀이기구에 자동 대기자가 추가됩니다.")
+        print("(5초마다 일반", normal_add_count, "명 + FastPass", fastpass_add_count, "명, 단 대기열이 상한 이상이면 추가하지 않음)")
         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
         # 놀이기구 리스트의 길이만큼 반복문을 돌린다.
@@ -445,15 +456,37 @@ class AmusementParkSystem:
             # 현재 순서의 놀이기구를 가져온다.
             ride = self.ride_list[i]
 
-            # 현재 놀이기구에 3명씩 자동 대기자를 추가한다.
-            for j in range(add_count):
+            # 일반 대기열에 자동 대기자를 추가한다.
+            for j in range(normal_add_count):
+                # 일반 대기 인원이 상한 이상이면 더 이상 추가하지 않는다.
+                if ride.get_normal_count() >= self.max_normal_queue:
+                    break
+
                 # 자동 대기자 객체를 생성한다.
                 auto_visitor = Visitor("자동대기자" + str(self.auto_visitor_number), 1)
 
-                # 대기 정보 객체를 생성한다.
+                # 일반 대기 정보 객체를 생성한다.
                 waiting_info = WaitingInfo(auto_visitor, ride.ride_name, "일반", self.current_time, 0)
 
                 # 놀이기구 일반 대기열에 자동 대기자를 추가한다.
+                ride.add_waiting(waiting_info)
+
+                # 다음 자동 대기자 번호를 증가시킨다.
+                self.auto_visitor_number = self.auto_visitor_number + 1
+
+            # FastPass 대기열에 자동 대기자를 추가한다.
+            for j in range(fastpass_add_count):
+                # FastPass 대기 인원이 상한 이상이면 더 이상 추가하지 않는다.
+                if ride.get_fastpass_count() >= self.max_fastpass_queue:
+                    break
+
+                # FastPass 자동 대기자 객체를 생성한다. (FastPass 보유자로 생성한다.)
+                auto_visitor = Visitor("자동FastPass대기자" + str(self.auto_visitor_number), 2)
+
+                # FastPass 대기 정보 객체를 생성한다.
+                waiting_info = WaitingInfo(auto_visitor, ride.ride_name, "FastPass", self.current_time, 0)
+
+                # 놀이기구 FastPass 대기열에 자동 대기자를 추가한다.
                 ride.add_waiting(waiting_info)
 
                 # 다음 자동 대기자 번호를 증가시킨다.
