@@ -84,3 +84,7 @@ python main.py
 | `visitor.py` | 사용자(티켓, FastPass 횟수, 탑승 기록) |
 | `waiting_info.py` | 대기 정보(사용자·대기 종류·예상 시간·알림 상태 등) |
 | `boarding_record.py` | 탑승 기록(놀이기구·시간·대기 시간·대기 종류) |
+
+## Git 브랜치
+
+규모가 작은 단일 프로젝트라 별도의 브랜치를 따지 않고 `master` 브랜치 하나에서만 작업했습니다.
