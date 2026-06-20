@@ -29,9 +29,9 @@ class AmusementParkSystem:
 
         # 놀이기구 객체를 생성하여 리스트에 추가한다.
         self.ride_list.append(Ride("스톤 익스프레스", 5, 4))
-        self.ride_list.append(Ride("아르카나 라이드", 7, 4))
-        self.ride_list.append(Ride("에오스 타워", 7, 6))
-        self.ride_list.append(Ride("자이로 스핀 메이플 리뉴얼 버전", 7, 8))
+        self.ride_list.append(Ride("아르카나 라이드", 7, 6))
+        self.ride_list.append(Ride("에오스 타워", 7, 8))
+        self.ride_list.append(Ride("자이로 스핀 메이플 리뉴얼 버전", 7, 10))
 
         # 프로그램 시작 전에 각 놀이기구마다 기존 대기자 5명을 추가한다.
         self.add_sample_waiting_people()
@@ -184,6 +184,8 @@ class AmusementParkSystem:
             # 놀이기구 정보를 출력한다.
             print(str(i + 1) + ".", ride.ride_name)
 
+        # 뒤로 가기(메인 메뉴 복귀) 항목을 출력한다.
+        print("0. 뒤로 가기")
         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
     # 대기할 놀이기구를 선택하는 메소드를 선언한다.
@@ -192,7 +194,12 @@ class AmusementParkSystem:
         self.show_ride_list()
 
         # 사용자로부터 놀이기구 번호를 입력받는다.
-        choice = input("👉 대기할 놀이기구 번호를 선택하세요: ")
+        choice = input("👉 대기할 놀이기구 번호를 선택하세요 (0: 뒤로 가기): ")
+
+        # 0을 입력하면 줄서기를 취소하고 메인 메뉴로 돌아간다.
+        if choice == "0":
+            print("메인 메뉴로 돌아갑니다.")
+            return None
 
         # 입력한 번호가 1~4 중 하나인지 확인한다.
         if choice == "1" or choice == "2" or choice == "3" or choice == "4":
@@ -464,9 +471,6 @@ class AmusementParkSystem:
 
     # 5초마다 대기열에 자동 대기자를 추가하는 메소드를 선언한다.
     def add_auto_waiting_people(self):
-        # 한 놀이기구마다 일반 대기열에 추가할 자동 대기자 수를 저장한다.
-        normal_add_count = 3
-
         # 한 놀이기구마다 FastPass 대기열에 추가할 자동 대기자 수를 저장한다.
         fastpass_add_count = 1
 
@@ -474,13 +478,17 @@ class AmusementParkSystem:
         print("👥 자동 대기자 추가")
         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
         print("⏰", self.current_time, "초가 되어 모든 놀이기구에 자동 대기자가 추가됩니다.")
-        print("(5초마다 일반", normal_add_count, "명 + FastPass", fastpass_add_count, "명, 단 대기열이 상한 이상이면 추가하지 않음)")
+        print("(5초마다 일반 대기는 수용 인원에 비례해서, FastPass는", fastpass_add_count, "명 추가. 단 대기열이 상한 이상이면 추가하지 않음)")
         print("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
 
         # 놀이기구 리스트의 길이만큼 반복문을 돌린다.
         for i in range(len(self.ride_list)):
             # 현재 순서의 놀이기구를 가져온다.
             ride = self.ride_list[i]
+
+            # 일반 대기열에 추가할 자동 대기자 수를 수용 인원에 비례해 정한다.
+            # 수용 인원이 큰(인기 많은) 놀이기구일수록 더 많은 대기자가 몰린다고 본다.
+            normal_add_count = ride.capacity // 2
 
             # 일반 대기열에 자동 대기자를 추가한다.
             for j in range(normal_add_count):
