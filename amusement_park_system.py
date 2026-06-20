@@ -220,11 +220,20 @@ class AmusementParkSystem:
         if ride == None:
             return
 
-        # 이미 같은 놀이기구에 대기 중이면 메소드를 종료한다.
-        if ride.has_same_visitor(self.current_visitor) == True:
-            print("이미 해당 놀이기구에 대기 중입니다.")
+        # 현재 사용자가 아직 안 탄 대기를 가지고 있는지 확인한다.
+        # 한 번에 하나의 놀이기구에만 대기할 수 있으므로, 대기 중이면 등록을 막는다.
+        waiting_ride = self.get_my_waiting_ride()
+        if waiting_ride != None:
+            # 선택한 놀이기구에 이미 대기 중인 경우
+            if waiting_ride == ride:
+                print("\n이미 해당 놀이기구에 대기 중입니다.")
+            # 다른 놀이기구에 대기 중인 경우
+            else:
+                print("\n이미", waiting_ride.ride_name, "에 대기 중입니다.")
+                print("한 번에 하나의 놀이기구에만 대기할 수 있습니다.")
+                print("현재 대기 중인 놀이기구를 탑승하거나 취소한 뒤에 다시 시도해주세요.")
             return
-        
+
         # 일반 대기열로 등록할지 FastPass 대기열로 등록할지 결정한다.
         queue_type = self.decide_queue_type()
 
@@ -310,6 +319,20 @@ class AmusementParkSystem:
 
         # 모든 FastPass 대기열에 현재 사용자가 없다면 False를 반환한다.
         return False
+
+    # 현재 사용자가 대기 중인(아직 안 탄) 놀이기구를 반환하는 메소드를 선언한다.
+    def get_my_waiting_ride(self):
+        # 놀이기구 리스트의 길이만큼 반복문을 돌린다.
+        for i in range(len(self.ride_list)):
+            # 현재 순서의 놀이기구를 가져온다.
+            ride = self.ride_list[i]
+
+            # 현재 사용자가 이 놀이기구의 대기열(일반/FastPass)에 있으면 해당 놀이기구를 반환한다.
+            if ride.get_my_waiting_info(self.current_visitor) != None:
+                return ride
+
+        # 어떤 놀이기구에도 대기 중이 아니면 None을 반환한다.
+        return None
 
     # 전체 놀이기구 대기 현황을 출력하는 메소드를 선언한다.
     def show_waiting_status(self):
