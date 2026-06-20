@@ -58,14 +58,15 @@ class Ride:
         # 이번 운행에서 탑승할 대기 정보를 저장할 리스트를 선언한다.
         boarding_group = []
 
-        # FastPass 대기 인원이 수용 가능 인원보다 많고 일반 대기자도 있으면 반반으로 탑승시킨다.
-        # 예: 수용 가능 인원 6명, FastPass 7명, 일반 5명이면 FastPass 3명 + 일반 3명 탑승
+        # FastPass 대기 인원이 수용 가능 인원보다 많고 일반 대기자도 있으면 약 2:1 비율로 탑승시킨다.
+        # FastPass에 더 많은 좌석을 주되, 일반 대기가 완전히 막히지 않도록 일반에 최소 1석은 보장한다.
+        # 예: 수용 6명이면 FastPass 4명 + 일반 2명, 수용 2명이면 FastPass 1명 + 일반 1명 탑승
         if len(fastpass_queue) > self.capacity and len(normal_queue) > 0:
-            # FastPass가 가져갈 좌석 수를 구한다.
-            fastpass_limit = self.capacity // 2
+            # 일반 대기가 가져갈 좌석 수를 구한다. (최소 1석 보장)
+            normal_limit = max(1, self.capacity // 3)
 
-            # 일반 대기가 가져갈 좌석 수를 구한다.
-            normal_limit = self.capacity - fastpass_limit
+            # FastPass가 가져갈 좌석 수를 구한다.
+            fastpass_limit = self.capacity - normal_limit
 
             # FastPass 제한 인원만큼 탑승 그룹에 추가한다.
             fastpass_count = 0
