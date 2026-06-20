@@ -331,8 +331,8 @@ class AmusementParkSystem:
         print("──────────────────────────────")
         print("⏱ 탑승 시간:", ride.ride_time, "초")
         print("👥 수용 인원:", ride.capacity, "명")
-        print("🚶 일반 대기:", ride.get_normal_count(), "명 / 예상", normal_wait_time, "초")
-        print("⚡ FastPass 대기:", ride.get_fastpass_count(), "명 / 예상", fastpass_wait_time, "초")
+        print("🚶 일반 대기:", ride.get_normal_count(), "명 / 지금 서면", normal_wait_time, "초")
+        print("⚡ FastPass 대기:", ride.get_fastpass_count(), "명 / 지금 서면", fastpass_wait_time, "초")
 
         # 현재 사용자가 이 놀이기구에 대기 중인지 확인한다.
         my_waiting = ride.get_my_waiting_order(self.current_visitor)
